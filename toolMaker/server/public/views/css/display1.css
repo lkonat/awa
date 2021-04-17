@@ -1,0 +1,57 @@
+#display1-selector-item-hovered{
+  background-color: rgb(252, 91, 102);
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+#display1-selector-item-hovered>#content{
+  background-color: rgb(252, 91, 102);
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+
+#display1-selector-item-selected{
+  background-color: dodgerblue;
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+#display1-selector-item-selected>#content{
+  background-color: dodgerblue;
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+
+
+#display1-selector-item-editing{
+  background-color: coral;
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+#display1-selector-item-editing>#content{
+  background-color: red;
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}

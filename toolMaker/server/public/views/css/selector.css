@@ -1,0 +1,18 @@
+.selector-item-hovered{
+  outline:1px solid rgb(252, 91, 102) !important;
+  outline:none;
+  cursor:pointer;
+}
+.selector-item-selected{
+  outline:1px solid dodgerblue !important;
+  outline:none;
+}
+.selector-item-editing{
+  cursor: text;
+  outline:none;
+  border:1px solid coral !important;
+}
+.selector-hide-dragg{
+  transition: 0.01s;
+  transform: translateX(-9999px);
+}

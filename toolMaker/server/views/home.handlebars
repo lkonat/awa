@@ -1,0 +1,68 @@
+<script type="text/javascript">
+  (async()=>{
+    const PAGE = await Page.build();
+    StyleAgent.setTargetContent(PAGE.getTargetedFrame());
+    StyleBoard.setHost({area:PAGE.getStyleArea()});
+    DisplayLayer1.setScreen(PAGE.addLayer());
+    ComponentsBoard.setHost({host:PAGE.getcomponentsArea()});
+    const undoArea = PAGE.getUndoArea();
+    const box = $(`<div style="display:grid; grid-template-rows:auto; grid-template-columns:max-content max-content;"></div>`);
+    undoArea.append(box);
+    const undoBtn = $(`<button type="button" disabled="true">Undo</button>`);
+    const cancelUndoBtn = $(`<button type="button" disabled="true">Redo</button>`);
+    box.append(undoBtn,cancelUndoBtn);
+    const treeBar  = new BoardTreeBar({host:PAGE.getCenterBottomArea()});
+    const BOARD = new Board({board:PAGE.getBoard(),treeBar});
+    PopUpMenu.setPage(PAGE);
+
+    Selector.setBoard(BOARD);
+    StyleBoard.on("command",(command)=>{
+      BOARD.addCommand(command);
+    });
+    Selector.on("command",(command)=>{
+      BOARD.addCommand(command);
+    });
+    NormalDragDrop.on("command",(command)=>{
+      BOARD.addCommand(command);
+    });
+    BOARD.on("undo-command",({undo,cancelUndo})=>{
+      if(undo){
+        undoBtn.prop("disabled",false);
+      }else {
+        undoBtn.prop("disabled",true);
+      }
+      if(cancelUndo){
+        cancelUndoBtn.prop("disabled",false);
+      }else {
+        cancelUndoBtn.prop("disabled",true);
+      }
+    });
+    BOARD.initView();
+    undoBtn.click((e)=>{
+      e.stopPropagation();
+      BOARD.undo();
+    });
+    cancelUndoBtn.click((e)=>{
+      e.stopPropagation();
+      BOARD.cancelUndo();
+    });
+    ComponentsBoard.addComponent({id:"Grid2",tag:'div',label:'Grid 2',detail:'Add a grid layout',item:`<div style="display:grid; grid-template-rows:auto 70px; grid-template-columns: 1fr 1fr 1fr;"></div>`});
+    ComponentsBoard.addComponent({id:"Grid",tag:'div',label:'Grid',detail:'Add a grid layout',item:`<div style="display:grid; grid-template-rows:1fr 1fr 1fr; grid-template-columns: 1fr 1fr 1fr;"></div>`});
+    ComponentsBoard.addComponent({id:"Flex Box",tag:'div',label:'Flex Box',detail:'Add a Flex Box',item:`<div style="display:flex; flex-direction:row;"></div>`});
+    ComponentsBoard.addComponent({id:"Div",tag:'div',label:'Div',detail:'Add a div',item:`<div></div>`});
+    ComponentsBoard.addComponent({id:"H1",tag:'h1',label:'Header 1',detail:'Add a header 1',textEditable:true,item:`<h1>Header 1</h1>`});
+    ComponentsBoard.addComponent({id:"H2",tag:'h2',label:'Header 2',detail:'Add a header 2',textEditable:true,item:`<h2>Header 2</h2>`});
+    ComponentsBoard.addComponent({id:"H3",tag:'h3',label:'Header 3',detail:'Add a header 3',textEditable:true,item:`<h3>Header 3</h3>`});
+    ComponentsBoard.addComponent({id:"H4",tag:'h4',label:'Header 4',detail:'Add a header 4',textEditable:true,item:`<h4>Header 4</h4>`});
+    ComponentsBoard.addComponent({id:"H5",tag:'h5',label:'Header 5',detail:'Add a header 5',textEditable:true,item:`<h5>Header 5</h5>`});
+    ComponentsBoard.addComponent({id:"P",tag:'p',label:'Paragraph',detail:'Add a paragraph',textEditable:true,item:`<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>`});
+    ComponentsBoard.addComponent({id:"Span",tag:'span',label:'Span',detail:'Add a span',textEditable:true,item:`<span>edit span...</span>`});
+    ComponentsBoard.addComponent({id:"Button",tag:'button',label:'Button',detail:'Add a button',textEditable:true,item:`<button type="button">Button</button>`});
+    ComponentsBoard.addComponent({id:"Code",tag:'code',label:'Code',detail:'Add a code tag',textEditable:true,item:`<code>button</code>`});
+    ComponentsBoard.addComponent({id:"Input",tag:'input',label:'Text input',detail:'Add a text input',item:`<input type="text">`});
+
+    // // $("html").on("mousemove",()=>{
+    // //   console.log("mouse move html");
+    // // });
+  })();
+</script>

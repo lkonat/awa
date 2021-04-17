@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.32.0/codemirror.min.css" />
+    <link rel="stylesheet" href="views/css/body.css" >
+    <link rel="stylesheet" href="views/css/page.css">
+    <link rel="stylesheet" href="views/css/board.css">
+      <link rel="stylesheet" href="tools/css/grid.css">
+      <link rel="stylesheet" href="views/css/display1.css">
+      <link rel="stylesheet" href="views/css/selector.css">
+    <script src="https://code.jquery.com/jquery-2.0.2.min.js"> </script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+  </head>
+  <body>
+    <script src="views/components/spaceView.js" charset="utf-8"></script>
+    <script src="views/pattern/boardState.js" charset="utf-8"></script>
+    <script src="views/controllers/dragController.js" charset="utf-8"></script>
+    <script src="views/components/styleBoard.js" charset="utf-8"></script>
+    <script src="views/components/pads.js" charset="utf-8"></script>
+    <script src="views/components/display1.js" charset="utf-8"></script>
+    <script src="views/utility/utility.js" charset="utf-8"></script>
+    <script src="views/pattern/command.js" charset="utf-8"></script>
+    <script src="views/components/componentsBoard.js" charset="utf-8"></script>
+    <script src="tools/components/boardItem.js" charset="utf-8"></script>
+    <script src="tools/components/header.js" charset="utf-8"></script>
+    <script src="views/components/selector.js" charset="utf-8"></script>
+    <script src="tools/components/grid.js" charset="utf-8"></script>
+    <script src="views/components/page.js" charset="utf-8"></script>
+    <script src="views/components/board.js" charset="utf-8"></script>
+    <script src="views/controllers/dropController.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      (async()=>{
+        const PAGE = await Page.build();
+        console.log(PAGE);
+        StyleBoard.setHost({area:PAGE.getStyleArea()});
+        DisplayLayer1.setScreen(PAGE.addLayer());
+        ComponentsBoard.setHost({host:PAGE.getcomponentsArea()});
+        const undoArea = PAGE.getUndoArea();
+        const box = $(`<div style="display:grid; grid-template-rows:auto; grid-template-columns:max-content max-content;"></div>`);
+        undoArea.append(box);
+        const undoBtn = $(`<button type="button" disabled="true">Undo</button>`);
+        const cancelUndoBtn = $(`<button type="button" disabled="true">Redo</button>`);
+        box.append(undoBtn,cancelUndoBtn);
+        const BOARD = new Board({board:PAGE.getBoard()});
+        Selector.setBoard(BOARD);
+        StyleBoard.on("command",(command)=>{
+          BOARD.addCommand(command);
+        });
+        Selector.on("command",(command)=>{
+          BOARD.addCommand(command);
+        });
+        NormalDragDrop.on("command",(command)=>{
+          BOARD.addCommand(command);
+        });
+        BOARD.on("undo-command",({undo,cancelUndo})=>{
+          if(undo){
+            undoBtn.prop("disabled",false);
+          }else {
+            undoBtn.prop("disabled",true);
+          }
+          if(cancelUndo){
+            cancelUndoBtn.prop("disabled",false);
+          }else {
+            cancelUndoBtn.prop("disabled",true);
+          }
+        });
+        BOARD.initView();
+        undoBtn.click((e)=>{
+          e.stopPropagation();
+          BOARD.undo();
+        });
+        cancelUndoBtn.click((e)=>{
+          e.stopPropagation();
+          BOARD.cancelUndo();
+        });
+        ComponentsBoard.addComponent({id:"Grid",tag:'div',label:'Grid',detail:'Add a grid layout',item:`<div style="display:grid; grid-template-rows:auto auto auto; grid-template-columns: auto auto auto;"></div>`});
+        ComponentsBoard.addComponent({id:"Flex Box",tag:'div',label:'Flex Box',detail:'Add a Flex Box',item:`<div style="display:flex; flex-direction:row;"></div>`});
+        ComponentsBoard.addComponent({id:"Div",tag:'div',label:'Div',detail:'Add a div',item:`<div></div>`});
+        ComponentsBoard.addComponent({id:"H1",tag:'h1',label:'Header 1',detail:'Add a header 1',textEditable:true,item:`<h1>Header 1</h1>`});
+        ComponentsBoard.addComponent({id:"H2",tag:'h2',label:'Header 2',detail:'Add a header 2',textEditable:true,item:`<h2>Header 2</h2>`});
+        ComponentsBoard.addComponent({id:"H3",tag:'h3',label:'Header 3',detail:'Add a header 3',textEditable:true,item:`<h3>Header 3</h3>`});
+        ComponentsBoard.addComponent({id:"H4",tag:'h4',label:'Header 4',detail:'Add a header 4',textEditable:true,item:`<h4>Header 4</h4>`});
+        ComponentsBoard.addComponent({id:"H5",tag:'h5',label:'Header 5',detail:'Add a header 5',textEditable:true,item:`<h5>Header 5</h5>`});
+        ComponentsBoard.addComponent({id:"P",tag:'p',label:'Paragraph',detail:'Add a paragraph',textEditable:true,item:`<p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)</p>`});
+        ComponentsBoard.addComponent({id:"Span",tag:'span',label:'Span',detail:'Add a span',textEditable:true,item:`<span>edit span...</span>`});
+        ComponentsBoard.addComponent({id:"Button",tag:'button',label:'Button',detail:'Add a button',textEditable:true,item:`<button type="button">Button</button>`});
+        ComponentsBoard.addComponent({id:"Code",tag:'code',label:'Code',detail:'Add a code tag',textEditable:true,item:`<code>button</code>`});
+        ComponentsBoard.addComponent({id:"Input",tag:'input',label:'Text input',detail:'Add a text input',item:`<input type="text">`});
+
+        // // $("html").on("mousemove",()=>{
+        // //   console.log("mouse move html");
+        // // });
+      })();
+    </script>
+  </body>
+</html>

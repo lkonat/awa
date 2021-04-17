@@ -1,0 +1,190 @@
+.awa-board-item-hovered{
+  outline:1px solid rgb(18,20,20) !important;
+  outline:none;
+  cursor:pointer;
+}
+.awa-board-item-selected{
+  outline:2px solid dodgerblue !important;
+  cursor:pointer;
+}
+.awa-board-item-editing{
+  cursor: text;
+  outline:2px solid coral !important;
+}
+.awa-board-hide-dragg{
+  cursor: grabbing;
+  transition: 0.01s;
+  transform: translateX(-9999px);
+  outline:none;
+}
+
+.awa-board-dragImage1{
+   width:100px;
+   height:30px;
+   background-color:rgba(7, 166, 245,0.5);
+   color:white;
+   cursor:grabbing;
+}
+
+.board-layer{
+  pointer-events: none;
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0px;
+  left:0px;
+  overflow:scroll;
+  background-color:rgba(20,20,20,0.6);
+}
+
+.tmp-grid-item-holder{
+  outline:1px dashed lightgrey !important;
+  color:whitesmoke;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.drop-target-elt{
+ margin:0px;
+ padding:0px;
+}
+.board{
+  display:table;
+  width:100%;
+  height: 100%;
+  position:relative;
+  padding:0px;
+  background-color:white;
+  outline:1px dashed coral;
+}
+.board-scene{
+  /* border:1px dashed red; */
+}
+.free-board-item{
+  outline:1px dashed whitesmoke;
+  width:100%;
+  height:100%;
+  color:lightgrey;
+}
+.item-selected{
+  outline:1px solid dodgerblue !important;
+  outline:none;
+}
+.draggable{
+  cursor:grab;
+}
+.editable{
+  cursor: text;
+}
+.item-selected.item-hovered{
+  outline:1px solid dodgerblue !important;
+  outline:none;
+}
+.awa-board-empty-items{
+  outline:1px dashed grey;
+  min-height:100px;
+  min-width:100px;
+}
+
+.layer1-hover-labels{
+  background-color: rgb(252, 91, 102);
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+
+
+.layer1-hover-labels>#content{
+  background-color: rgb(252, 91, 102);
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+.drop-target{
+  background-color: rgba(07, 166, 245,0.3);
+  color:rgb(87, 66, 245);
+  font-size:10px;
+}
+.drop-target2{
+  background-color: rgb(07, 166, 245);
+  color:rgb(87, 66, 245);
+  font-size:10px;
+}
+.drop-target-we{
+  background-color: coral;
+  color:rgb(87, 66, 245);
+  font-size:10px;
+}
+.pads-hovered{
+  background-color: rgba(87, 66, 245,0.3);
+  font-size:10px;
+  min-height:0px;
+}
+
+.layer1-hover-drop{
+  background-color: lightgreen;
+  color:white;
+  padding:0px;
+  padding: 1px;
+  font-size:0.5em;
+  pointer-events:auto;
+  cursor:pointer;
+}
+.hide-dragg{
+  transition: 0.01s;
+  transform: translateX(-9999px);
+}
+.space-tool-padding-top, .space-tool-padding-bottom{
+  fill:rgba(200, 200, 200,0.5);
+  cursor:ns-resize;
+}
+.space-tool-padding-left,.space-tool-padding-right{
+  fill:rgba(100, 100, 100,0.5);
+  cursor:ew-resize;
+
+}
+.space-tool-padding-top:hover, .space-tool-padding-bottom:hover,.space-tool-padding-left:hover,.space-tool-padding-right:hover{
+  fill:rgba(0, 0, 0,0.2);
+  box-shadow: 0 0 5px black;
+}
+
+.space-tool-margin-top,.space-tool-margin-bottom{
+  fill:rgba(200, 200, 200,0.5);
+  cursor:ns-resize;
+}
+.space-tool-margin-right,.space-tool-margin-left{
+  fill:rgba(100, 100, 100,0.5);
+  stroke:"dodgerblue";
+  cursor:ew-resize;
+}
+.space-tool-margin-top:hover,.space-tool-margin-left:hover,.space-tool-margin-right:hover,.space-tool-margin-bottom:hover{
+  fill:rgba(153, 148, 148,0.2);
+  stroke:"red";
+}
+select::-ms-expand {
+    display: none;
+}
